@@ -4,12 +4,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Note from '../Note/Note'
 import CircleButton from '../CircleButton/CircleButton'
 import './NoteListMain.css'
+import NotefulContext from '../NotefulContext';
+import PropTypes from 'prop-types';
 
-export default function NoteListMain(props) {
+export default class NoteListMain extends React.Component {
+  static contextType = NotefulContext;
+  
+  render() {
+    const error = this.context.error
+          ? <div className="noteful_app__error">{this.context.error}</div> : "";
+
+
   return (
     <section className='NoteListMain'>
+      <div className="error_message">
+        {error}
+      </div>
       <ul>
-        {props.notes.map(note =>
+        {this.props.notes.map(note =>
           <li key={note.id}>
             <Note
               id={note.id}
@@ -33,8 +45,12 @@ export default function NoteListMain(props) {
       </div>
     </section>
   )
-}
+}}
 
 NoteListMain.defaultProps = {
   notes: [],
+}
+
+NoteListMain.propTypes = {
+  value: PropTypes.array,
 }
